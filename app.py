@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 
 from ai import analyze_image
 from recommender import get_recommendations_dynamic
-from PIL import Image
+from PIL import Image, ImageOps
 
 load_dotenv()
 
@@ -99,6 +99,7 @@ def handle_upload():
     if not file or file.filename == "":
         flash("Please upload an image.", "error")
         return redirect(url_for("upload_page"))
+
     if not allowed_file(file.filename):
         flash("Allowed formats: png, jpg, jpeg, webp.", "error")
         return redirect(url_for("upload_page"))
@@ -108,10 +109,14 @@ def handle_upload():
     save_path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
     file.save(save_path)
 
-    # --- AI analysis (dynamic) ---
-    info = analyze_image(save_path)  # {'pred_type', 'vibe', 'color_name', 'color_hex', 'raw_label'}
+    # ↓↓↓ shrink and normalize EXIF orientation to cut RAM use
+    with Image.open(save_path) as im:
+        im = ImageOps.exif_transpose(im)
+        im.thumbnail((640, 640))  # max side 640px
+        im.convert("RGB").save(save_path, "JPEG", quality=85, optimize=True)
 
-    # --- Build dynamic recommendations ---
+    info = analyze_image(save_path)
+
     recs = get_recommendations_dynamic(
         pred_type=info["pred_type"],
         color_name=info["color_name"],
@@ -120,7 +125,7 @@ def handle_upload():
 
     return render_template(
         "results.html",
-        uploaded_filename=filename,
+        uploaded_filename=os.path.basename(save_path),
         recs=recs,
         detection_info=info
     )
