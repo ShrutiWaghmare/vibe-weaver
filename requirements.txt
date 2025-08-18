@@ -10,3 +10,4 @@ tldextract
 duckduckgo-search>=5.3.1
 tldextract
 requests
+gunicorn
