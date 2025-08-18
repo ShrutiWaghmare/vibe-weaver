@@ -13,6 +13,10 @@ from PIL import Image
 load_dotenv()
 
 app = Flask(__name__)
+@app.route("/healthz", methods=["GET"])
+def healthz():
+    return "ok", 200
+
 app.secret_key = os.getenv("SECRET_KEY", "dev-key")
 
 app.config["UPLOAD_FOLDER"] = "uploads"
