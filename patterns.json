@@ -1,0 +1,30 @@
+{
+  "groups": [
+    {"name": "solid",       "aliases": ["solid", "plain", "mono color"]},
+    {"name": "striped",     "aliases": ["striped", "pinstripe", "breton stripes"]},
+    {"name": "checked",     "aliases": ["checked", "checkered", "gingham", "plaid", "tartan", "windowpane"]},
+    {"name": "floral",      "aliases": ["floral", "flower print", "botanical", "ditsy floral"]},
+    {"name": "polka dots",  "aliases": ["polka dots", "dot print", "spotted"]},
+    {"name": "animal print","aliases": ["animal print", "leopard", "zebra", "snakeskin", "tiger stripes"]},
+    {"name": "graphic",     "aliases": ["graphic", "logo print", "typography"]},
+    {"name": "geometric",   "aliases": ["geometric", "chevron", "houndstooth", "herringbone", "lattice", "trellis", "argyle"]},
+    {"name": "tie-dye",     "aliases": ["tie-dye", "ombre", "dip dye"]},
+    {"name": "camouflage",  "aliases": ["camouflage", "camo"]},
+
+    {"name": "ikat",        "aliases": ["ikat"]},
+    {"name": "bandhani",    "aliases": ["bandhani", "bandhej"]},
+    {"name": "leheriya",    "aliases": ["leheriya"]},
+    {"name": "ajrakh",      "aliases": ["ajrakh"]},
+    {"name": "kalamkari",   "aliases": ["kalamkari"]},
+    {"name": "paisley",     "aliases": ["paisley"]},
+    {"name": "brocade",     "aliases": ["brocade", "jacquard"]},
+    {"name": "chikankari",  "aliases": ["chikankari", "embroidery", "embroidered"]},
+
+    {"name": "ribbed",      "aliases": ["ribbed", "rib knit"]},
+    {"name": "waffle",      "aliases": ["waffle knit"]},
+    {"name": "cable knit",  "aliases": ["cable knit"]},
+    {"name": "quilted",     "aliases": ["quilted"]},
+    {"name": "lace",        "aliases": ["lace", "eyelet"]},
+    {"name": "smocked",     "aliases": ["smocked", "ruched"]}
+  ]
+}

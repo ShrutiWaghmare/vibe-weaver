@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="min-h-[70vh] grid place-items-center">
+  <div class="w-full max-w-md">
+    <div class="card bg-base-100 shadow-xl rounded-2xl border border-base-300">
+      <div class="card-body">
+        <div class="text-center">
+          <h1 class="text-2xl font-extrabold">Welcome back</h1>
+          <p class="text-base-content/70 mt-1">Log in to continue styling with <span class="font-semibold">VibeWeaver</span>.</p>
+        </div>
+
+        <form method="post" action="{{ url_for('login') }}" class="mt-6 space-y-4">
+          <label class="form-control w-full">
+            <span class="label-text">Username</span>
+            <input name="username" type="text" required class="input input-bordered w-full" placeholder="yourname" autocomplete="username">
+          </label>
+
+          <label class="form-control w-full">
+            <div class="flex items-center justify-between">
+              <span class="label-text">Password</span>
+              <button type="button" id="togglePwd" class="text-xs link">show</button>
+            </div>
+            <input id="pwd" name="password" type="password" required class="input input-bordered w-full" placeholder="••••••••" autocomplete="current-password">
+          </label>
+
+          <button class="btn btn-primary w-full">Log in</button>
+        </form>
+
+        <div class="divider my-6"></div>
+
+        <p class="text-center text-sm">
+          New here?
+          <a class="link font-medium" href="{{ url_for('signup') }}">Create an account</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const btn = document.getElementById('togglePwd');
+  const pwd = document.getElementById('pwd');
+  btn?.addEventListener('click', () => {
+    const t = pwd.type === 'password' ? 'text' : 'password';
+    pwd.type = t;
+    btn.textContent = t === 'password' ? 'show' : 'hide';
+  });
+</script>
+{% endblock %}

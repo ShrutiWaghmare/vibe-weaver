@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="min-h-[70vh] grid place-items-center">
+  <div class="w-full max-w-md">
+    <div class="card bg-base-100 shadow-xl rounded-2xl border border-base-300">
+      <div class="card-body">
+        <div class="text-center">
+          <h1 class="text-2xl font-extrabold">Create your account</h1>
+          <p class="text-base-content/70 mt-1">Personalize recommendations and save your vibe.</p>
+        </div>
+
+        <form method="post" action="{{ url_for('signup') }}" class="mt-6 space-y-4">
+          <label class="form-control w-full">
+            <span class="label-text">Username</span>
+            <input name="username" type="text" required class="input input-bordered w-full" placeholder="choose a username" autocomplete="username">
+          </label>
+
+          <label class="form-control w-full">
+            <div class="flex items-center justify-between">
+              <span class="label-text">Password</span>
+              <button type="button" id="togglePwd2" class="text-xs link">show</button>
+            </div>
+            <input id="pwd2" name="password" type="password" required class="input input-bordered w-full" placeholder="at least 8 characters" autocomplete="new-password" minlength="8">
+          </label>
+
+          <button class="btn btn-primary w-full">Sign up</button>
+        </form>
+
+        <div class="divider my-6"></div>
+
+        <p class="text-center text-sm">
+          Already have an account?
+          <a class="link font-medium" href="{{ url_for('login') }}">Log in</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const btn2 = document.getElementById('togglePwd2');
+  const pwd2 = document.getElementById('pwd2');
+  btn2?.addEventListener('click', () => {
+    const t = pwd2.type === 'password' ? 'text' : 'password';
+    pwd2.type = t;
+    btn2.textContent = t === 'password' ? 'show' : 'hide';
+  });
+</script>
+{% endblock %}

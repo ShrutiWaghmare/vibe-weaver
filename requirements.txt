@@ -1,0 +1,12 @@
+flask
+python-dotenv
+pillow
+werkzeug
+torch
+torchvision
+open_clip_torch
+requests
+tldextract
+duckduckgo-search>=5.3.1
+tldextract
+requests

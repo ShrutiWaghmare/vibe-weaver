@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en" data-theme="cupcake">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>VibeWeaver</title>
+
+  <!-- Tailwind + daisyUI (CDN) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css" />
+
+  <!-- (Tiny fallback in case CDN is blocked; keeps grids from collapsing) -->
+  <style>
+    @media (min-width:768px){.md\:grid-cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    @media (min-width:1024px){.lg\:grid-cols-3{grid-template-columns:repeat(3,minmax(0,1fr))}}
+  </style>
+</head>
+<!-- Loading overlay -->
+<div id="loadingOverlay" class="fixed inset-0 z-50 hidden">
+  <div class="absolute inset-0 bg-base-300/60 backdrop-blur-sm"></div>
+  <div class="relative z-10 h-full grid place-items-center">
+    <div class="bg-base-100 border border-base-300 shadow-xl rounded-2xl p-6 text-center">
+      <span class="loading loading-spinner loading-lg block mx-auto mb-3"></span>
+      <h3 id="loadingTitle" class="font-semibold text-lg">Curating your look…</h3>
+      <p class="text-sm opacity-70">Sit back and relax while we weave outfits from your upload.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  // show/hide helpers available to all pages
+  function showLoading(msg) {
+    const ov = document.getElementById('loadingOverlay');
+    if (!ov) return;
+    if (msg) document.getElementById('loadingTitle').textContent = msg;
+    ov.classList.remove('hidden');
+  }
+  function hideLoading() {
+    const ov = document.getElementById('loadingOverlay');
+    if (ov) ov.classList.add('hidden');
+  }
+  // safety: if a page was cached and shown again, ensure overlay is hidden
+  window.addEventListener('pageshow', hideLoading);
+</script>
+
+
+<body class="min-h-screen bg-base-100">
+
+  <!-- Sticky, beautified navbar -->
+  <header class="navbar bg-base-100 border-b sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto w-full px-4">
+      <div class="flex items-center justify-between gap-4 py-2">
+        <a href="/" class="flex items-center gap-2">
+          <!-- simple logo mark -->
+          <svg width="28" height="28" viewBox="0 0 24 24" class="opacity-80">
+            <path fill="currentColor" d="M12 2a10 10 0 1 0 10 10A10.011 10.011 0 0 0 12 2Zm0 18a8 8 0 1 1 8-8a8.009 8.009 0 0 1-8 8Z"/>
+            <circle cx="12" cy="12" r="4" fill="currentColor"/>
+          </svg>
+          <span class="text-xl font-extrabold bg-gradient-to-r from-fuchsia-600 via-rose-500 to-amber-500 bg-clip-text text-transparent">
+            VibeWeaver
+          </span>
+        </a>
+
+        <nav class="flex items-center gap-2">
+          {% if session.get('user') %}
+            <span class="hidden sm:inline text-sm text-base-content/70">Hi, {{ session.get('user') }}!</span>
+            <a class="btn btn-ghost btn-sm" href="{{ url_for('upload_page') }}">Upload</a>
+            <a class="btn btn-outline btn-error btn-sm" href="{{ url_for('logout') }}">Logout</a>
+            <div class="avatar placeholder ml-2">
+              <div class="bg-neutral text-neutral-content rounded-full w-8">
+                <span>{{ session.get('user')[0]|upper }}</span>
+              </div>
+            </div>
+          {% else %}
+            <a class="btn btn-ghost btn-sm" href="{{ url_for('login') }}">Login</a>
+            <a class="btn btn-primary btn-sm" href="{{ url_for('signup') }}">Sign up</a>
+          {% endif %}
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto w-full px-4 py-6">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="space-y-2 mb-4">
+          {% for category, msg in messages %}
+            <div class="alert {% if category=='success' %}alert-success{% elif category=='error' %}alert-error{% else %}alert-info{% endif %}">
+              <span>{{ msg }}</span>
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+    <!-- Loading overlay -->
+<div id="loadingOverlay" class="loading hidden">
+  <div class="loading-card">
+    <div class="spinner"></div>
+    <h3 class="mt-2 font-semibold">We’re curating your look</h3>
+    <p class="mt-1 text-sm opacity-80">
+      Sit back and relax while we scout Indian & niche brands for you…
+    </p>
+  </div>
+</div>
+
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="footer footer-center p-6 bg-base-100 text-base-content/70 border-t">
+    <aside>© VibeWeaver demo</aside>
+  </footer>
+</body>
+</html>

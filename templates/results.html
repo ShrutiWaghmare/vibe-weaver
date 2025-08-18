@@ -1,0 +1,263 @@
+{% extends "base.html" %}
+{% block content %}
+<h2 class="text-2xl font-semibold mb-4">Recommendations</h2>
+
+<!-- Top section: uploaded image + detection -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+  {% if uploaded_filename %}
+  <div class="card bg-base-100 shadow rounded-2xl">
+    <div class="card-body">
+      <h3 class="card-title">Uploaded Item</h3>
+      <div class="w-full rounded-lg border border-base-300 overflow-hidden bg-base-200">
+        <img
+          src="{{ url_for('uploaded_file', filename=uploaded_filename) }}"
+          alt="Uploaded"
+          class="max-w-full"
+          style="max-height:420px; object-fit:contain;"
+        />
+      </div>
+      {% if detection_info %}
+      <div class="mt-3 text-sm space-y-1">
+        <div><strong>Detected Type:</strong> {{ detection_info.pred_type }} <span class="opacity-60">(raw: {{ detection_info.raw_label }})</span></div>
+        <div><strong>Vibe:</strong> {{ detection_info.vibe }}</div>
+        <div class="flex items-center gap-2">
+          <strong>Color:</strong>
+          <!-- avoid Jinja inside style; set via script -->
+          <span class="inline-block w-3 h-3 rounded-full align-middle color-dot" data-color="{{ detection_info.color_hex }}"></span>
+          <span>{{ detection_info.color_name }} ({{ detection_info.color_hex }})</span>
+        </div>
+        {% if detection_info.pattern %}
+        <div><strong>Pattern:</strong> {{ detection_info.pattern }}</div>
+        {% endif %}
+      </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="card bg-base-100 shadow rounded-2xl">
+    <div class="card-body">
+      <h3 class="card-title">Vibe Summary</h3>
+      <p class="text-base-content/80">{{ recs.vibe }}</p>
+    </div>
+  </div>
+  {% endif %}
+</div>
+
+<!-- Category sections in responsive grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+  {% if recs.tops and recs.tops|length > 0 %}
+  <div class="card bg-base-100 shadow rounded-2xl">
+    <div class="card-body">
+      <h3 class="card-title">Tops</h3>
+      <div class="flex flex-col gap-4">     <!-- 1-column grid -->
+
+        {% for p in recs.tops %}
+        <div class="card border border-base-300 bg-base-100 rounded-2xl hover:shadow-lg transition overflow-hidden">
+          <div class="card-body">
+            {# Split "midi skirt white smocked party" => title (first 2 words) + tags (rest) #}
+            <div class="text-base font-semibold leading-snug">{{ p.title }}</div>
+{% if p.tags %}
+  <div class="mt-1 flex flex-wrap gap-1">
+    {% for t in p.tags %}
+      <span class="badge badge-ghost badge-sm">{{ t }}</span>
+    {% endfor %}
+  </div>
+{% endif %}
+
+
+            <!-- Retailer pills that WRAP (no overflow) -->
+            <div class="flex flex-col gap-2 mt-3">
+
+              {% for link in p.links %}
+              <a
+  class="retailer-pill block w-full rounded-xl border border-base-300 px-3 py-2
+         hover:border-base-content/40 hover:bg-base-200 transition"
+  target="_blank" rel="noopener noreferrer"
+  href="{{ link.url }}" title="{{ link.retailer }}"
+>
+  <div class="flex items-center gap-2 min-w-0">
+    {% if link.favicon %}<img src="{{ link.favicon }}" alt="" class="w-4 h-4 shrink-0"/>{% endif %}
+    <span class="retailer-name text-sm leading-tight min-w-0 flex-1 truncate">
+      {{ link.retailer }}
+    </span>
+  </div>
+</a>
+
+
+
+
+
+
+                {% if link.favicon %}<img src="{{ link.favicon }}" alt="" class="w-4 h-4"/>{% endif %}
+                <span class="truncate">{{ link.retailer }}</span>
+              </a>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+  {% if recs.bottoms and recs.bottoms|length > 0 %}
+  <div class="card bg-base-100 shadow rounded-2xl">
+    <div class="card-body">
+      <h3 class="card-title">Bottoms</h3>
+      <div class="flex flex-col gap-4">     <!-- 1-column grid -->
+
+        {% for p in recs.bottoms %}
+        <div class="card border border-base-300 bg-base-100 rounded-2xl hover:shadow-lg transition overflow-hidden">
+          <div class="card-body">
+            <div class="text-base font-semibold leading-snug">{{ p.title }}</div>
+{% if p.tags %}
+  <div class="mt-1 flex flex-wrap gap-1">
+    {% for t in p.tags %}
+      <span class="badge badge-ghost badge-sm">{{ t }}</span>
+    {% endfor %}
+  </div>
+{% endif %}
+
+            <div class="flex flex-col gap-2 mt-3">
+
+              {% for link in p.links %}
+             <a
+  class="retailer-pill block w-full rounded-xl border border-base-300 px-3 py-2
+         hover:border-base-content/40 hover:bg-base-200 transition"
+  target="_blank" rel="noopener noreferrer"
+  href="{{ link.url }}" title="{{ link.retailer }}"
+>
+  <div class="flex items-center gap-2 min-w-0">
+    {% if link.favicon %}<img src="{{ link.favicon }}" alt="" class="w-4 h-4 shrink-0"/>{% endif %}
+    <span class="retailer-name text-sm leading-tight min-w-0 flex-1 truncate">
+      {{ link.retailer }}
+    </span>
+  </div>
+</a>
+
+
+
+
+
+
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+  <div class="card bg-base-100 shadow rounded-2xl">
+    <div class="card-body">
+      <h3 class="card-title">Accessories</h3>
+      <div class="flex flex-col gap-4">    <!-- 1-column grid -->
+
+        {% for p in recs.accessories %}
+        <div class="card border border-base-300 bg-base-100 rounded-2xl hover:shadow-lg transition overflow-hidden">
+          <div class="card-body">
+            <div class="text-base font-semibold leading-snug">{{ p.title }}</div>
+{% if p.tags %}
+  <div class="mt-1 flex flex-wrap gap-1">
+    {% for t in p.tags %}
+      <span class="badge badge-ghost badge-sm">{{ t }}</span>
+    {% endfor %}
+  </div>
+{% endif %}
+
+            <div class="flex flex-col gap-2 mt-3">
+
+              {% for link in p.links %}
+              <a
+  class="retailer-pill block w-full rounded-xl border border-base-300 px-3 py-2
+         hover:border-base-content/40 hover:bg-base-200 transition"
+  target="_blank" rel="noopener noreferrer"
+  href="{{ link.url }}" title="{{ link.retailer }}"
+>
+  <div class="flex items-center gap-2 min-w-0">
+    {% if link.favicon %}<img src="{{ link.favicon }}" alt="" class="w-4 h-4 shrink-0"/>{% endif %}
+    <span class="retailer-name text-sm leading-tight min-w-0 flex-1 truncate">
+      {{ link.retailer }}
+    </span>
+  </div>
+</a>
+
+
+
+
+
+
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+
+      <div class="mt-4 text-sm opacity-80">
+        <strong>Vibe summary:</strong> {{ recs.vibe }}
+      </div>
+    </div>
+  </div>
+
+  <div class="card bg-base-100 shadow rounded-2xl">
+    <div class="card-body">
+      <h3 class="card-title">Purse / Bag</h3>
+      <div class="flex flex-col gap-4">    <!-- 1-column grid -->
+
+        {% for p in recs.purse %}
+        <div class="card border border-base-300 bg-base-100 rounded-2xl hover:shadow-lg transition overflow-hidden">
+          <div class="card-body">
+            <div class="text-base font-semibold leading-snug">{{ p.title }}</div>
+{% if p.tags %}
+  <div class="mt-1 flex flex-wrap gap-1">
+    {% for t in p.tags %}
+      <span class="badge badge-ghost badge-sm">{{ t }}</span>
+    {% endfor %}
+  </div>
+{% endif %}
+
+            <div class="flex flex-col gap-2 mt-3">
+
+              {% for link in p.links %}
+            <a
+  class="retailer-pill block w-full rounded-xl border border-base-300 px-3 py-2
+         hover:border-base-content/40 hover:bg-base-200 transition"
+  target="_blank" rel="noopener noreferrer"
+  href="{{ link.url }}" title="{{ link.retailer }}"
+>
+  <div class="flex items-center gap-2 min-w-0">
+    {% if link.favicon %}<img src="{{ link.favicon }}" alt="" class="w-4 h-4 shrink-0"/>{% endif %}
+    <span class="retailer-name text-sm leading-tight min-w-0 flex-1 truncate">
+      {{ link.retailer }}
+    </span>
+  </div>
+</a>
+
+
+
+
+
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- set color dot background without inline Jinja CSS -->
+<script>
+  document.querySelectorAll('.color-dot').forEach(el => {
+    const c = el.dataset.color;
+    if (c) el.style.background = c;
+  });
+</script>
+{% endblock %}

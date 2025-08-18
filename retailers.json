@@ -1,0 +1,39 @@
+{
+  "sites": {
+    "Amazon": "https://www.amazon.in/s?k={q}",
+    "Flipkart": "https://www.flipkart.com/search?q={q}",
+    "Myntra": "https://www.myntra.com/{q}",
+    "AJIO": "https://www.ajio.com/search/?text={q}",
+    "Zara": "https://www.zara.com/in/en/search?searchTerm={q}",
+    "H&M": "https://www2.hm.com/en_in/search-results.html?q={q}",
+    "Tata CLiQ": "https://www.tatacliq.com/search/?searchCategory=all&text={q}",
+    "ASOS": "https://www.asos.com/search/?q={q}",
+
+    "Nykaa Fashion": "https://www.nykaafashion.com/search?q={q}",
+    "Jaypore": "https://www.jaypore.com/search?q={q}",
+    "FabIndia": "https://www.fabindia.com/search?q={q}",
+    "Pernia's Pop-Up": "https://www.perniaspopupshop.com/catalogsearch/result/?q={q}",
+    "FableStreet": "https://www.fablestreet.com/search?q={q}",
+    "The Label Life": "https://www.thelabellife.com/search?q={q}",
+    "Urbanic": "https://www.urbanic.com/search?keyword={q}",
+    "House of Indya": "https://www.houseofindya.com/search?q={q}",
+    "Global Desi": "https://www.globaldesi.in/catalogsearch/result/?q={q}",
+    "Superkicks": "https://www.superkicks.in/search?q={q}",
+    "VegNonVeg": "https://vegnonveg.com/search?q={q}",
+    "SSENSE": "https://www.ssense.com/en-in/shop?q={q}",
+    "FARFETCH": "https://www.farfetch.com/in/shopping/women/items.aspx?q={q}"
+  },
+
+  "bias_by_vibe": {
+    "ethnic": ["Jaypore", "FabIndia", "Pernia's Pop-Up", "House of Indya", "Nykaa Fashion", "Myntra", "AJIO"],
+    "streetwear": ["Superkicks", "VegNonVeg", "Urbanic", "ASOS", "Myntra", "AJIO", "H&M"],
+    "formal": ["FableStreet", "The Label Life", "Zara", "H&M", "Tata CLiQ", "Myntra"],
+    "party": ["Pernia's Pop-Up", "The Label Life", "Zara", "Nykaa Fashion", "ASOS", "AJIO"],
+    "boho": ["Jaypore", "Global Desi", "Nykaa Fashion", "Urbanic", "Myntra"],
+    "minimal": ["FableStreet", "Zara", "H&M", "Tata CLiQ", "ASOS"],
+    "athleisure": ["H&M", "Myntra", "ASOS", "AJIO", "Urbanic"],
+    "vacation": ["Urbanic", "ASOS", "Zara", "H&M", "Nykaa Fashion"],
+    "smart casual": ["FableStreet", "Zara", "H&M", "Tata CLiQ", "Myntra", "ASOS"],
+    "casual": ["Myntra", "AJIO", "H&M", "Tata CLiQ", "ASOS", "Urbanic"]
+  }
+}
